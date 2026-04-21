@@ -1,0 +1,149 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Carnaval d'Orsières 2026",
+      "year": 2026,
+      "category": "Poster Design",
+      "images": ["cover_26carnavalOrsières.png"]
+    },
+    {
+      "id": 2,
+      "title": "L’Étoile Blanche",
+      "year": 2026,
+      "category": "Brand Assets",
+      "images": [
+        "cover_etoileBlanche-menuBoisson.png",
+        "cover_etoileBlanche-sousverre.png",
+        "cover_etoileBlanche-tshirt.png"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Curia",
+      "year": 2026,
+      "category": "Visual Identity",
+      "images": ["cover_curia.png"]
+    },
+    {
+      "id": 4,
+      "title": "Medze.ch",
+      "year": 2025,
+      "category": "Branding & Web",
+      "images": [
+        "cover_medze-carotte.png",
+        "cover_medze-etiquette.png",
+        "cover_medze-insta.png",
+        "cover_medze-paquet.png"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "NaturaQuest",
+      "year": 2025,
+      "category": "UI Design",
+      "images": [
+        "cover_narutaQuest-activity.png",
+        "cover_narutaQuest-activityChoix.png",
+        "cover_narutaQuest-base.png",
+        "cover_narutaQuest-classement.png",
+        "cover_narutaQuest-s.png"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "RJV 2025",
+      "year": 2025,
+      "category": "Art Direction",
+      "images": [
+        "cover_rjv-affiche.png",
+        "cover_rjv-logo.png",
+        "cover_rjv-photo1.png",
+        "cover_rjv-photo3.png",
+        "cover_rjv-pjoto2.png"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Ambigramme",
+      "year": 2025,
+      "category": "Digital Art",
+      "images": [
+        "cover_ambigramme-marina.png",
+        "cover_ambigramme-niepce.png"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Altéa",
+      "year": 2025,
+      "category": "Visual Identity",
+      "images": ["cover_altea-logo.png"]
+    },
+    {
+      "id": 9,
+      "title": "Yearbook",
+      "year": 2025,
+      "category": "Editorial",
+      "images": [
+        "cover_yearbook-rob.png",
+        "cover_yearbook-texte.png"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Carnaval d'Orsières 2025",
+      "year": 2025,
+      "category": "Poster Design",
+      "images": ["cover_25carnavalOrsières.png"]
+    },
+    {
+      "id": 11,
+      "title": "Zygomatique",
+      "year": 2024,
+      "category": "Visual Identity",
+      "images": [
+        "cover_zygomatique-poster.png",
+        "cover_zygomatique-pot.png"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "Osika",
+      "year": 2024,
+      "category": "Visual Identity",
+      "images": ["cover_osika.png"]
+    },
+    {
+      "id": 13,
+      "title": "Carnaval d'Orsières 2024",
+      "year": 2024,
+      "category": "Poster Design",
+      "images": ["cover_24carnavalOrsières.png"]
+    },
+    {
+      "id": 14,
+      "title": "No Planet B",
+      "year": 2024,
+      "category": "Graphic Art",
+      "images": ["24_noPlanetB.png"]
+    },
+    {
+      "id": 15,
+      "title": "Wovement",
+      "year": 2023,
+      "category": "Poster Design",
+      "images": [
+        "cover_wovement-affiche.png",
+        "cover_wovement-mockup.png"
+      ]
+    },
+    {
+      "id": 16,
+      "title": "Bal des 20",
+      "year": 2022,
+      "category": "Poster Design",
+      "images": ["cover_bal20.png"]
+    }
+  ]
+}

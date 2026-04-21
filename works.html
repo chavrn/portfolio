@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Réalisations — Aulne Studio</title>
+  <meta name="description" content="Tous les projets de Charline Vernay : affiche, branding, UI, direction artistique.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="cursor"></div>
+<div class="cursor-follower"></div>
+<div id="page-transition"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-logo">
+    <a href="index.html"><img src="ressources/logo/2026-01-26_aulneLogo-03.png" class="header-logo"></a>
+  </div>
+  <nav>
+    <a href="about.html">à propos</a>
+    <a href="mailto:charlinevernay04@gmail.com" class="btn-contact">me contacter</a>
+  </nav>
+</header>
+
+<!-- PAGE RÉALISATIONS -->
+<main>
+  <div class="works-wrapper">
+
+    <!-- Barre de vue / filtre -->
+    <div class="works-filter fade-up" role="toolbar" aria-label="Changer la vue">
+      <span></span>
+<!--      <button id="btn-carousel" class="active" aria-pressed="true">[ carousel ]</button>-->
+<!--      <button id="btn-grid" aria-pressed="false">grid</button>-->
+    </div>
+
+
+    <div id="carousel-view" class="works-carousel-view fade-in">
+
+      <!-- Col 1 : liste des projets -->
+      <div class="works-col works-col--list">
+        <ul class="works-names-list" id="works-names-list" aria-label="Liste des projets">
+          <!-- Injecté par script.js -->
+        </ul>
+      </div>
+
+      <!-- Col 2 : numéro actif -->
+      <div class="works-col works-col--num">
+        <span class="works-active-num" id="project-index" aria-live="polite">01</span>
+      </div>
+
+      <!-- Col 3–4 : zone scroll infini (span 2) -->
+      <div class="works-col works-col--scroll" id="works-scroll">
+        <div class="works-scroll-inner" id="works-scroll-inner">
+          <!-- Injecté par script.js -->
+        </div>
+      </div>
+
+      <!-- Col 5 : catégorie -->
+      <div class="works-col works-col--category">
+        <span class="works-active-category" id="project-category" aria-live="polite">Poster Design</span>
+      </div>
+
+      <!-- Col 6 : vide -->
+      <div class="works-col works-col--empty"></div>
+
+    </div>
+
+    <!-- ============================================================
+         VUE GRILLE
+    ============================================================ -->
+    <div id="grid-view" class="works-grid-view" aria-label="Grille de projets">
+      <!-- Injecté par script.js -->
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/cha_vrn/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.linkedin.com/in/charlinevernay/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:charlinevernay04@gmail.com">Email</a>
+
+    <a href="ressources/CV_avril2026b.pdf" download="CV_Charline_Vernay" class="btn-cv">
+      télécharger mon CV
+    </a>
+  </div>
+
+  <div style="text-align:right;">
+    <p>© 2026 Charline Vernay. All rights reserved.</p>
+    <p>Website made with my hands.</p>
+    <p>Typeface Alte Haas Grotesk</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="script.js" defer></script>
+</body>
+</html>

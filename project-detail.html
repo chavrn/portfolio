@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet — Aulne Studio</title>
+  <meta name="description" content="Détail d'un projet de Charline Vernay.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="cursor"></div>
+  <div class="cursor-follower"></div>
+  <div id="page-transition"></div>
+
+<!--  &lt;!&ndash; HEADER &ndash;&gt;-->
+<!--  <header>-->
+<!--    <div class="header-logo">-->
+<!--      <a href="index.html"><img src="ressources/logo/2026-01-26_aulneLogo-03.png" class="header-logo"></a>    </div>-->
+<!--    <nav>-->
+<!--      <a href="mailto:charline.vernay@heig-vd.ch" class="btn-contact">me contacter</a>-->
+<!--    </nav>-->
+<!--  </header>-->
+
+  <!-- ======================================================
+       PAGE DÉTAIL PROJET
+       Le contenu est injecté dynamiquement par script.js
+       à partir du paramètre URL ?id=X
+  ======================================================= -->
+  <main>
+    <div class="detail-wrapper" data-detail="true">
+
+      <!-- RETOUR -->
+      <a href="works.html" class="detail-back fade-up">
+        &larr; réalisations
+      </a>
+
+      <!-- EN-TÊTE : numéro + titre -->
+      <div class="detail-header">
+        <div class="detail-num-title fade-up">
+          <span class="detail-num" id="detail-num">01</span>
+          <h1 class="detail-title" id="detail-title">Titre du projet</h1>
+        </div>
+      </div>
+
+      <!-- IMAGES -->
+      <div class="detail-images">
+
+        <!-- Grande image principale -->
+        <div class="detail-main-img fade-in">
+          <!-- Injectée par script.js -->
+        </div>
+
+        <!-- Images secondaires (colonne droite) -->
+        <div class="detail-side-imgs fade-in">
+          <!-- Injectées par script.js -->
+        </div>
+
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="detail-desc">
+
+        <h2 class="detail-subtitle scroll-reveal" id="detail-subtitle">
+          Sous-titre du projet
+        </h2>
+
+        <div class="detail-texts">
+          <p class="scroll-reveal" id="detail-desc1">
+            Description du projet...
+          </p>
+          <p class="scroll-reveal" id="detail-desc2"></p>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/cha_vrn/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.linkedin.com/in/charlinevernay/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:charlinevernay04@gmail.com">Email</a>
+
+      <a href="ressources/CV_avril2026b.pdf" download="CV_Charline_Vernay" class="btn-cv">
+        télécharger mon CV
+      </a>
+    </div>
+
+    <div style="text-align:right;">
+      <p>© 2026 Charline Vernay. All rights reserved.</p>
+      <p>Website made with my hands.</p>
+      <p>Typeface Alte Haas Grotesk</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
