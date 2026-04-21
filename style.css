@@ -924,4 +924,40 @@ footer a:hover { color: var(--black); }
   opacity: 0.6;
 }
 
+/* Style du texte au hover */
+.hover-name {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+/* Conteneur de l'image flottante */
+.floating-img-wrapper {
+  position: fixed;
+  width: 150px; /* Taille de la petite photo */
+  height: auto;
+  pointer-events: none; /* L'image ne doit pas bloquer la souris */
+  z-index: 1000;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.floating-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* État affiché */
+.floating-img-wrapper.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
 

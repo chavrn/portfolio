@@ -162,7 +162,7 @@ const PROJECTS = [
     subtitle: "Manifeste visuel écologique",
     description: "Projet d'affiche engagée utilisant une contrainte textuelle imposée pour dénoncer l'urgence climatique.",
     description2: "Une composition à fort impact visuel, jouant sur le contraste et la hiérarchie typographique pour porter un message militant et universel.",
-    images: ["24_noPlanetB.png"]
+    images: ["cover_noPlanetB.png"]
   },
   {
     id: 15,
@@ -403,3 +403,28 @@ document.addEventListener('DOMContentLoaded', () => {
   initDetailPage();
   initHomePage();
 });
+
+const hoverName = document.querySelector('.hover-name');
+const floatingImg = document.querySelector('.floating-img-wrapper');
+
+if (hoverName && floatingImg) {
+  // Suivi de la souris
+  window.addEventListener('mousemove', (e) => {
+    // On décale un peu l'image de la souris pour qu'elle soit visible (ex: +20px)
+    gsap.to(floatingImg, {
+      x: e.clientX + 20,
+      y: e.clientY + 20,
+      duration: 0.6,
+      ease: "power3.out"
+    });
+  });
+
+  // Apparition / Disparition
+  hoverName.addEventListener('mouseenter', () => {
+    floatingImg.classList.add('visible');
+  });
+
+  hoverName.addEventListener('mouseleave', () => {
+    floatingImg.classList.remove('visible');
+  });
+}
