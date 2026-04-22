@@ -25,7 +25,9 @@ const PROJECTS = [
     images: [
       "cover_etoileBlanche-tshirt.png",
       "cover_etoileBlanche-menuBoisson.png",
-      "cover_etoileBlanche-sousverre.png"
+      "cover_etoileBlanche-sousverre.png",
+        "cover_etoileBlanche-menuSet.png",
+        "cover_etoileBlanche-tshirtMockup.png",
     ]
   },
   {
@@ -36,7 +38,9 @@ const PROJECTS = [
     subtitle: "Branding participatif",
     description: "Création de l'identité visuelle pour Curia, une application de ticketing citoyen permettant aux habitants de proposer et de voter pour des projets d'aménagement urbain.",
     description2: "Le logotype symbolise l'échange et la validation démocratique, avec une esthétique institutionnelle moderne qui inspire confiance et clarté pour les municipalités.",
-    images: ["cover_curia.png"]
+    images: ["cover_curia.png",
+    "cover_curia-logos.png",
+    ]
   },
   {
     id: 4,
@@ -49,7 +53,9 @@ const PROJECTS = [
       "cover_medze-paquet.png",
       "cover_medze-carotte.png",
       "cover_medze-etiquette.png",
-      "cover_medze-insta.png"
+      "cover_medze-insta.png",
+        "cover_medze-instaShakshuka.png",
+        "cover_medze-potTomatePesto.png",
     ]
   },
   {
@@ -70,7 +76,7 @@ const PROJECTS = [
   },
   {
     id: 6,
-    title: "RJV 2025",
+    title: "RJV 2024",
     year: 2025,
     category: "Art Direction",
     subtitle: "Identité événementielle cantonale",
@@ -112,7 +118,7 @@ const PROJECTS = [
     subtitle: "Conception graphique éditoriale",
     description: "Refonte complète du yearbook de l'école. Un travail de mise en page complexe alliant structure rigoureuse et créativité visuelle.",
     description2: "Utilisation de grilles typographiques modulaires, traitement chromatique des images et choix de papiers virtuels pour créer un objet de mémoire moderne et pérenne.",
-    images: ["cover_yearbook-rob.png", "cover_yearbook-texte.png"]
+    images: ["cover_yearbook-rob.png", "cover_yearbook-texte.png", "cover_yearbook-sections2.png"]
   },
   {
     id: 10,
