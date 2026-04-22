@@ -5,89 +5,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aulne Studio — Charline Vernay</title>
   <meta name="description" content="Portfolio de Charline Vernay, étudiante en ingénierie des médias, design graphique et création visuelle.">
+  <script src="Loader.js"></script>  <!-- ← premier, sans defer -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Curseur personnalisé -->
-  <div class="cursor"></div>
-  <div class="cursor-follower"></div>
+<!-- Curseur personnalisé -->
+<div class="cursor"></div>
+<div class="cursor-follower"></div>
 
-  <!-- Overlay transition de page -->
-  <div id="page-transition"></div>
+<!-- Overlay transition de page -->
+<div id="page-transition"></div>
 
-  <!-- ======================================================
-       TOPBAR
-  ======================================================= -->
-  <div class="topbar">Bienvenue sur mon portfolio !</div>
+<!-- ======================================================
+     TOPBAR
+======================================================= -->
+<div class="topbar">Bienvenue sur mon portfolio !</div>
 
-  <!-- ======================================================
-       HEADER
-  ======================================================= -->
-  <header>
-    <div class="header-logo">
-       </div>
-    <nav>
-      <a href="works.html">réalisations</a>
-      <a href="mailto:charlinevernay04@gmail.com" class="btn-contact">me contacter</a>
-    </nav>
-  </header>
+<!-- ======================================================
+     HEADER
+======================================================= -->
+<header>
+  <div class="header-logo">
+    <img src="ressources/logo/2026-01-26_aulneLogo-01.png" alt="Aulne Studio" width="200">
+  </div>
+  <nav>
+    <a href="works.html">réalisations</a>
+    <a href="mailto:charlinevernay04@gmail.com" class="btn-contact">me contacter</a>
+  </nav>
 
-  <!-- ======================================================
+
+</header>
+
+<!-- ======================================================
+     MAIN — wrappé dans .home-trail-zone
+     La zone de traînée couvre tout l'espace entre header et footer.
+     Les images du portfolio apparaissent en suivant le curseur.
+======================================================= -->
+<main class="home-trail-zone">
+
+  <!-- ====================================================
        HÉROS — Grand logo + Navigation
-  ======================================================= -->
-  <main>
-    <section class="home-hero" aria-label="Introduction">
+  ==================================================== -->
 
-      <!-- logo -->
-      <img src="ressources/logo/2026-01-26_aulneLogo-01.png">
+  <!-- ====================================================
+       BIO CENTRALE
+  ==================================================== -->
+  <section class="home-bio-wrapper" aria-label="Présentation">
+    <p class="home-bio fade-up">
+      Je suis <span class="hover-name">Charline</span>, une étudiante en ingénierie des médias passionnée par la création visuelle.
+    </p>
 
-
-
-    </section>
-
-    <!-- ======================================================
-         BIO CENTRALE
-    ======================================================= -->
-    <section class="home-bio-wrapper" aria-label="Présentation">
-      <p class="home-bio fade-up">
-        Je suis <span class="hover-name">Charline</span>, une étudiante en ingénierie des médias passionnée par la création visuelle.
-      </p>
-
-      <div class="floating-img-wrapper">
-        <img src="ressources/photos/charline.png" alt="Charline Vernay">
-      </div>
-    </section>
-
-
-
-  </main>
-
-  <!-- ======================================================
-       FOOTER
-  ======================================================= -->
-  <footer>
-    <div class="footer-social">
-      <a href="https://www.instagram.com/cha_vrn/" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.linkedin.com/in/charlinevernay/" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="mailto:charlinevernay04@gmail.com">Email</a>
-
-      <a href="ressources/CV_avril2026b.pdf" download="CV_Charline_Vernay" class="btn-cv">
-        télécharger mon CV
-      </a>
+    <!-- Image flottante au hover sur le prénom -->
+    <div class="floating-img-wrapper">
+      <img src="ressources/photos/charline.png" alt="Charline Vernay">
     </div>
+  </section>
 
-    <div style="text-align:right;">
-      <p>© 2026 Charline Vernay. All rights reserved.</p>
-      <p>Website made with my hands.</p>
-      <p>Typeface Alte Haas Grotesk</p>
-    </div>
-  </footer>
+</main>
 
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="ImageTrail.js" defer></script>
-  <script src="script.js" defer></script>
+<!-- ======================================================
+     FOOTER
+======================================================= -->
+<footer>
+  <div class="footer-social">
+    <a href="https://www.instagram.com/cha_vrn/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.linkedin.com/in/charlinevernay/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="mailto:charlinevernay04@gmail.com">Email</a>
+    <a href="ressources/CV_avril2026b.pdf" download="CV_Charline_Vernay" class="btn-cv">
+      télécharger mon CV
+    </a>
+  </div>
+
+  <div style="text-align:right;">
+    <p>© 2026 Charline Vernay. All rights reserved.</p>
+    <p>Website made with my hands.</p>
+    <p>Typeface Alte Haas Grotesk</p>
+  </div>
+</footer>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="ImageTrail.js" defer></script>
+<script src="script.js" defer></script>
 </body>
 </html>
