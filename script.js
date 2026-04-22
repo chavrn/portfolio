@@ -219,6 +219,8 @@ function initHeaderScroll() {
   }, { passive: true });
 }
 
+
+
 /* --- TRANSITIONS --- */
 function initPageTransitions() {
   const overlay = document.getElementById('page-transition');
