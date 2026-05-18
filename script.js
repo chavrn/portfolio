@@ -39,7 +39,7 @@ const PROJECTS = [
     description: "Création de l'identité visuelle pour Curia, une application de ticketing citoyen permettant aux habitants de proposer et de voter pour des projets d'aménagement urbain.",
     description2: "Le logotype symbolise l'échange et la validation démocratique, avec une esthétique institutionnelle moderne qui inspire confiance et clarté pour les municipalités.",
     images: ["cover_curia.png",
-    "cover_curia-logos.png",
+    "cover_curia-logos.png", "cover_curia-prototypes.png", "cover_curia-prototypes2.png"
     ]
   },
   {

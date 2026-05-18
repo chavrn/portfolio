@@ -8,7 +8,6 @@
 
     /* ----------------------------------------------------------
        LISTE DES IMAGES
-       Toutes les cover depuis ressources/projets/
     ---------------------------------------------------------- */
     const TRAIL_IMAGES = [
         "cover_26carnavalOrsières.png",
@@ -43,66 +42,81 @@
         "cover_bal20.png",
     ];
 
-    /* ----------------------------------------------------------
-       CONFIG
-    ---------------------------------------------------------- */
     const CONFIG = {
-        imageCount:    12,      // nb d'images simultanées dans le pool
-        imgWidth:      180,     // px — largeur de chaque vignette
-        imgHeight:     180,     // px — hauteur de chaque vignette
-        triggerDist:   80,      // px — distance min entre deux apparitions
-        fadeInDur:     0.35,    // s — durée d'entrée
-        fadeOutDelay:  0.55,    // s — délai avant disparition
-        fadeOutDur:    0.5,     // s — durée de disparition
-        rotRange:      12,      // deg — amplitude de rotation aléatoire
-        scaleFrom:     0.7,     // échelle de départ
-        scaleTo:       1.0,     // échelle d'arrivée
-        zoneSelector:  '.home-trail-zone', // zone déclenchante
+        imageCount:       12,
+        imgWidth:         180,
+        imgHeight:        180,
+        triggerDistSq:    80 * 80,  // comparaison sans Math.sqrt
+        fadeInDur:        0.35,
+        fadeOutDelay:     0.55,
+        fadeOutDur:       0.5,
+        rotRange:         12,
+        scaleFrom:        0.7,
+        scaleTo:          1.0,
+        zoneSelector:     '.home-trail-zone',
     };
 
     /* ----------------------------------------------------------
-       INIT — attend que le DOM + GSAP soient prêts
+       Préchargement — remplit le cache navigateur avant affichage
+    ---------------------------------------------------------- */
+    function preloadImages() {
+        TRAIL_IMAGES.forEach(name => {
+            const img = new Image();
+            img.src = 'ressources/projets/' + name;
+        });
+    }
+
+    /* ----------------------------------------------------------
+       INIT
     ---------------------------------------------------------- */
     function init() {
         if (typeof gsap === 'undefined') {
-            // GSAP pas encore chargé (defer) → réessayer
             setTimeout(init, 100);
             return;
         }
 
         const zone = document.querySelector(CONFIG.zoneSelector);
-        if (!zone) return; // page sans zone trail
+        if (!zone) return;
 
-        /* Pool d'éléments img pré-créés */
+        preloadImages();
+
         const pool = buildPool(zone);
 
         let currentIndex = 0;
         let lastX = -9999;
         let lastY = -9999;
-        let imgSequence = 0; // index cyclique dans TRAIL_IMAGES
+        let imgSequence = 0;
+
+        // Rect mis en cache — recalculé seulement au resize/scroll
+        let zoneRect = zone.getBoundingClientRect();
+        const refreshRect = () => { zoneRect = zone.getBoundingClientRect(); };
+        window.addEventListener('resize', refreshRect, { passive: true });
+        window.addEventListener('scroll', refreshRect, { passive: true });
+
+        // RAF throttle — un seul traitement par frame
+        let rafId = null;
+        let pendingX = 0, pendingY = 0;
 
         zone.addEventListener('mousemove', (e) => {
-            const rect = zone.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+            pendingX = e.clientX - zoneRect.left;
+            pendingY = e.clientY - zoneRect.top;
+            if (rafId) return;
+            rafId = requestAnimationFrame(() => {
+                rafId = null;
+                const dx = pendingX - lastX;
+                const dy = pendingY - lastY;
+                if (dx * dx + dy * dy < CONFIG.triggerDistSq) return;
+                lastX = pendingX;
+                lastY = pendingY;
+                const el = pool[currentIndex % CONFIG.imageCount];
+                currentIndex++;
+                showImage(el, pendingX, pendingY, imgSequence % TRAIL_IMAGES.length);
+                imgSequence++;
+            });
+        }, { passive: true });
 
-            const dx = x - lastX;
-            const dy = y - lastY;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            if (dist < CONFIG.triggerDist) return;
-
-            lastX = x;
-            lastY = y;
-
-            const el = pool[currentIndex % CONFIG.imageCount];
-            currentIndex++;
-            showImage(el, x, y, imgSequence % TRAIL_IMAGES.length);
-            imgSequence++;
-        });
-
-        /* Optionnel : masquer toutes les images quand la souris quitte la zone */
         zone.addEventListener('mouseleave', () => {
+            if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
             pool.forEach(el => {
                 gsap.killTweensOf(el);
                 gsap.set(el, { autoAlpha: 0 });
@@ -113,21 +127,19 @@
     }
 
     /* ----------------------------------------------------------
-       Construire le pool de <img> dans la zone
+       Pool de <img> — positionnées en transform (GPU composité)
     ---------------------------------------------------------- */
     function buildPool(zone) {
-        /* La zone doit être position:relative ou absolute */
         const pool = [];
-
         for (let i = 0; i < CONFIG.imageCount; i++) {
             const img = document.createElement('img');
             img.className = 'trail-img';
             img.setAttribute('aria-hidden', 'true');
             img.setAttribute('draggable', 'false');
-
-            // Style inline de base
             Object.assign(img.style, {
                 position:      'absolute',
+                left:          '0',
+                top:           '0',
                 width:         CONFIG.imgWidth  + 'px',
                 height:        CONFIG.imgHeight + 'px',
                 objectFit:     'cover',
@@ -139,64 +151,50 @@
                 borderRadius:  '2px',
                 willChange:    'transform, opacity',
             });
-
             zone.appendChild(img);
             pool.push(img);
         }
-
         return pool;
     }
 
     /* ----------------------------------------------------------
-       Animer une image à la position (x, y)
+       Animer une image — translate GPU uniquement (pas de left/top)
     ---------------------------------------------------------- */
     function showImage(el, x, y, imgIdx) {
-        // Charger la bonne image (lazy)
         const src = 'ressources/projets/' + TRAIL_IMAGES[imgIdx];
         if (el.getAttribute('src') !== src) el.src = src;
 
-        // Rotation aléatoire légère
         const rot = (Math.random() - 0.5) * 2 * CONFIG.rotRange;
+        // x/y = transform: translate → composité GPU, pas de layout
+        const tx = x - CONFIG.imgWidth  / 2;
+        const ty = y - CONFIG.imgHeight / 2;
 
-        // Centrer l'image sur le curseur
-        const left = x - CONFIG.imgWidth  / 2;
-        const top  = y - CONFIG.imgHeight / 2;
-
-        // Tuer les tweens précédents sur cet élément
         gsap.killTweensOf(el);
-
-        // Positionner instantanément
         gsap.set(el, {
-            left,
-            top,
-            rotation: rot,
-            scale:    CONFIG.scaleFrom,
+            x: tx, y: ty,
+            rotation:  rot,
+            scale:     CONFIG.scaleFrom,
             autoAlpha: 0,
-            zIndex:   10 + (imgIdx % 20),
+            zIndex:    10 + (imgIdx % 20),
         });
 
-        // Entrée
         gsap.to(el, {
-            autoAlpha:  1,
-            scale:      CONFIG.scaleTo,
-            duration:   CONFIG.fadeInDur,
-            ease:       'power3.out',
-            // Sortie enchaînée
-            onComplete: () => {
+            autoAlpha: 1,
+            scale:     CONFIG.scaleTo,
+            duration:  CONFIG.fadeInDur,
+            ease:      'power3.out',
+            onComplete() {
                 gsap.to(el, {
-                    autoAlpha:  0,
-                    scale:      CONFIG.scaleTo + 0.05,
-                    duration:   CONFIG.fadeOutDur,
-                    delay:      CONFIG.fadeOutDelay,
-                    ease:       'power2.in',
+                    autoAlpha: 0,
+                    scale:     CONFIG.scaleTo + 0.05,
+                    duration:  CONFIG.fadeOutDur,
+                    delay:     CONFIG.fadeOutDelay,
+                    ease:      'power2.in',
                 });
             }
         });
     }
 
-    /* ----------------------------------------------------------
-       Lancement
-    ---------------------------------------------------------- */
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
