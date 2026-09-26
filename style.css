@@ -61,6 +61,9 @@ a {
 
 main {
   flex: 1; /* pousse le footer vers le bas du viewport */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 img {
@@ -201,6 +204,67 @@ nav a::after {
 }
 
 nav a:hover::after { width: 100%; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 600;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--black);
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.nav-toggle.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  flex-direction: column;
+  gap: 0;
+  background: var(--white);
+  z-index: 550;
+  border-top: 1px solid var(--black);
+  padding: 20px var(--margin);
+}
+
+.nav-mobile.active {
+  display: flex;
+}
+
+.nav-mobile a {
+  padding: 16px 0;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nav-mobile a:last-child {
+  border-bottom: none;
+}
 
 .btn-contact {
   font-size: 14px;
@@ -883,9 +947,11 @@ footer a:hover { color: var(--black); }
   .cursor, .cursor-follower { display: none; }
 
   /* Header */
-  header { padding: 16px var(--margin); }
+  header { padding: 12px var(--margin); }
+  .header-logo { font-size: 12px; }
+  .nav-desktop { display: none; }
+  .nav-toggle { display: flex; }
   .btn-contact { font-size: 12px; }
-  .header-logo { font-size: 13px; }
 
   /* Home */
   .home-hero { grid-template-columns: 1fr; }
@@ -920,7 +986,35 @@ footer a:hover { color: var(--black); }
   .about-photo,
   .about-section { grid-column: 1 / -1; }
 
-  footer { flex-direction: column; gap: 20px; align-items: flex-start; }
+  footer {
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .footer-social {
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+  }
+  
+  .footer-social a {
+    padding: 8px 4px;
+    font-size: 12px;
+  }
+  
+  .footer-social .btn-cv {
+    padding: 10px 16px;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  
+  .footer-social .btn-cv:active {
+    background: rgba(0,0,0,0.05);
+  }
 }
 
 .detail-main-img img,
@@ -992,34 +1086,37 @@ footer a:hover { color: var(--black); }
   transform: scale(1);
 }
 
-/* ============================================================
-   IMAGE TRAIL — à ajouter dans style.css
-   ============================================================ */
-
-/* Zone déclenchante — occupe tout l'espace entre header et footer */
-.home-trail-zone {
-  position: relative;        /* nécessaire pour positionner les imgs en absolute */
-  overflow: hidden;          /* rogner les images hors zone */
-  flex: 1;                   /* s'étirer verticalement entre header et footer */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;   /* centrer le contenu hero */
-  min-height: 0;             /* important pour que flex:1 fonctionne dans body flex */
+/* Position zones - Desktop */
+.floating-img-wrapper.position-top-right {
+  top: 80px;
+  right: 40px;
 }
 
-/* Images de la traînée (créées par JS) */
-.trail-img {
-  /* Styles de base posés en JS, on ajoute ici des détails visuels */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-  /* Mix-blend-mode optionnel pour un effet plus graphique */
-  /* mix-blend-mode: multiply; */
+.floating-img-wrapper.position-bottom-right {
+  bottom: 100px;
+  right: 40px;
 }
 
-/* ============================================================
-   HOME HERO — contenu intérieur
-   La section .home-hero devient enfant de .home-trail-zone
-   ============================================================ */
+.floating-img-wrapper.position-top-left {
+  top: 100px;
+  left: 40px;
+}
+
+.floating-img-wrapper.position-center-right {
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%) scale(0.8);
+}
+
+.floating-img-wrapper.position-center-right.visible {
+  transform: translateY(-50%) scale(1);
+}
+
+.floating-img-wrapper.position-bottom-left {
+  bottom: 150px;
+  left: 40px;
+}
+
 .home-hero {
   padding: 0 var(--margin);
   width: 100%;
@@ -1029,10 +1126,6 @@ footer a:hover { color: var(--black); }
   grid-template-columns: repeat(6, 1fr);
   gap: var(--gap);
   align-items: start;
-  /* S'assurer que le hero passe au-dessus des images trail */
-  position: relative;
-  z-index: 20;
-  pointer-events: none; /* laisser les events passer vers la zone trail */
 }
 
 /* Le contenu cliquable (liens, boutons) doit récupérer les events */
@@ -1041,11 +1134,9 @@ footer a:hover { color: var(--black); }
   pointer-events: auto;
 }
 
-/* Bio — également au-dessus de la traînée */
+/* Bio */
 .home-bio-wrapper {
   position: relative;
-  z-index: 20;
-  pointer-events: none;
   padding: 60px var(--margin);
   max-width: 1440px;
   margin: 0 auto;
@@ -1061,11 +1152,139 @@ footer a:hover { color: var(--black); }
 }
 
 /* ============================================================
-   RESPONSIVE
-   ============================================================ */
+    DETAIL PAGE — Navigation Top
+    ============================================================ */
+.detail-nav-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  padding: 50px var(--margin) 40px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--black);
+}
+
+.detail-nav-link {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: var(--black);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.detail-nav-link:first-child {
+  text-align: left;
+}
+
+.detail-nav-link:last-child {
+  text-align: right;
+}
+
+.detail-nav-link:hover {
+  opacity: 0.6;
+}
+
+.detail-nav-link:first-child:hover {
+  transform: translateX(-6px);
+}
+
+.detail-nav-link:last-child:hover {
+  transform: translateX(6px);
+}
+
+.detail-nav-link.disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.detail-nav-back {
+  font-weight: 400;
+}
+
+.detail-nav-title {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--black);
+  padding: 8px 20px;
+  border: 1px solid var(--black);
+  border-radius: 2px;
+}
+
+/* ============================================================
+     RESPONSIVE
+     ============================================================ */
 @media (max-width: 768px) {
-  .home-trail-zone {
-    /* Sur mobile : cursor auto, on désactive la traînée (le JS check isMobile) */
-    overflow: visible;
+  /* Detail Nav Mobile */
+  .detail-nav-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 30px var(--margin) 25px;
+  }
+
+  .detail-nav-link {
+    font-size: 14px;
+  }
+
+  .detail-nav-title {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  /* Floating image mobile - only 2 positions */
+  .floating-img-wrapper {
+    width: 120px;
+  }
+
+  .floating-img-wrapper.position-top-right,
+  .floating-img-wrapper.position-center-right,
+  .floating-img-wrapper.position-bottom-right {
+    top: 120px;
+    right: 20px;
+    bottom: auto;
+  }
+
+  .floating-img-wrapper.position-top-left,
+  .floating-img-wrapper.position-bottom-left {
+    bottom: 120px;
+    left: 20px;
+    top: auto;
+  }
+
+  .floating-img-wrapper.position-center-right {
+    transform: translateY(0) scale(0.8);
+  }
+
+  .floating-img-wrapper.position-center-right.visible {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Respect pour prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Désactiver les animations GSAP */
+  .fade-up,
+  .fade-in,
+  .detail-main-img img,
+  .detail-side-img img,
+  .floating-img-wrapper,
+  header,
+  footer,
+  main {
+    animation: none !important;
+    transition: none !important;
   }
 }

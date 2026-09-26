@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projet — Aulne Studio</title>
   <meta name="description" content="Détail d'un projet de Charline Vernay.">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Projet — Aulne Studio">
+  <meta property="og:description" content="Découvrez les détails d'un projet de Charline Vernay, design graphique et création visuelle.">
+  <meta property="og:image" content="ressources/logo/2026-01-26_aulneLogo-01.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chavrn.github.io/portfolio/project-detail.html">
+  
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,14 +21,34 @@
   <div class="cursor-follower"></div>
   <div id="page-transition"></div>
 
-<!--  &lt;!&ndash; HEADER &ndash;&gt;-->
-<!--  <header>-->
-<!--    <div class="header-logo">-->
-<!--      <a href="index.html"><img src="ressources/logo/2026-01-26_aulneLogo-03.png" class="header-logo"></a>    </div>-->
-<!--    <nav>-->
-<!--      <a href="mailto:charline.vernay@heig-vd.ch" class="btn-contact">me contacter</a>-->
-<!--    </nav>-->
-<!--  </header>-->
+  <!-- ======================================================
+       HEADER
+  ======================================================= -->
+  <!-- HEADER -->
+  <header>
+    <div class="header-logo">
+      <a href="index.html"><img src="ressources/logo/2026-01-26_aulneLogo-01.png" alt="Aulne Studio" width="200"></a>
+    </div>
+    <nav class="nav-desktop">
+      <a href="works.html">réalisations</a>
+      <a href="about.html">à propos</a>
+      <a href="mailto:charlinevernay04@gmail.com" class="btn-contact">me contacter</a>
+    </nav>
+
+    <!-- Mobile Hamburger Menu -->
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Mobile Navigation Menu -->
+    <nav class="nav-mobile" id="nav-mobile">
+      <a href="works.html">réalisations</a>
+      <a href="about.html">à propos</a>
+      <a href="mailto:charlinevernay04@gmail.com" class="btn-contact">me contacter</a>
+    </nav>
+  </header>
 
   <!-- ======================================================
        PAGE DÉTAIL PROJET
@@ -30,10 +58,11 @@
   <main>
     <div class="detail-wrapper" data-detail="true">
 
-      <!-- RETOUR -->
-      <a href="works.html" class="detail-back fade-up">
-        &larr; réalisations
-      </a>
+      <!-- NAVIGATION TOP — Réalisations | Suivant -->
+      <div class="detail-nav-top">
+        <a href="works.html" class="detail-nav-link detail-nav-back">← Réalisations</a>
+        <a class="detail-nav-link" id="detail-link-next" onclick="window.goToNextProject(); return false;">Suivant →</a>
+      </div>
 
       <!-- EN-TÊTE : numéro + titre -->
       <div class="detail-header">
@@ -76,8 +105,6 @@
 
     </div>
   </main>
-
-  <!-- FOOTER -->
   <footer>
     <div class="footer-social">
       <a href="https://www.instagram.com/cha_vrn/" target="_blank" rel="noopener">Instagram</a>
@@ -99,5 +126,93 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="script.js" defer></script>
+
+  <!-- Navigation functions - inline pour être disponibles immédiatement -->
+  <script>
+    let currentProjectIndex = 0;
+
+    function updateProjectIndex() {
+      // Attendre que PROJECTS soit chargé depuis script.js
+      if (typeof PROJECTS === 'undefined') {
+        setTimeout(updateProjectIndex, 50);
+        return;
+      }
+      
+      const params = new URLSearchParams(window.location.search);
+      const id = parseInt(params.get('id'), 10);
+      currentProjectIndex = PROJECTS.findIndex(p => p.id === id);
+      console.log('Current project index:', currentProjectIndex, 'ID:', id);
+    }
+
+    window.goToPrevProject = function() {
+      // Vérifier que PROJECTS est dispo
+      if (typeof PROJECTS === 'undefined') {
+        console.error('PROJECTS not loaded yet');
+        return;
+      }
+      
+      const totalProjects = PROJECTS.length;
+      const prevIndex = currentProjectIndex === 0 ? totalProjects - 1 : currentProjectIndex - 1;
+      const prevProject = PROJECTS[prevIndex];
+      console.log('Navigate to prev:', prevProject.id);
+      window.location.href = 'project-detail.html?id=' + prevProject.id;
+    };
+
+    window.goToNextProject = function() {
+      // Vérifier que PROJECTS est dispo
+      if (typeof PROJECTS === 'undefined') {
+        console.error('PROJECTS not loaded yet');
+        return;
+      }
+      
+      const totalProjects = PROJECTS.length;
+      const nextIndex = currentProjectIndex === totalProjects - 1 ? 0 : currentProjectIndex + 1;
+      const nextProject = PROJECTS[nextIndex];
+      console.log('Navigate to next:', nextProject.id);
+      window.location.href = 'project-detail.html?id=' + nextProject.id;
+    };
+
+    // Update index when page loads
+    document.addEventListener('DOMContentLoaded', updateProjectIndex);
+    if (document.readyState !== 'loading') {
+      setTimeout(updateProjectIndex, 100);
+    }
+  </script>
+<!-- Mobile Menu Handler - Inline for immediate availability -->
+<script>
+  (function() {
+    const toggles = document.querySelectorAll(".nav-toggle");
+    toggles.forEach(toggle => {
+      const header = toggle.closest("header");
+      if (!header) return;
+      
+      const navMobile = header.querySelector(".nav-mobile");
+      if (!navMobile) return;
+      
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggle.classList.toggle("active");
+        navMobile.classList.toggle("active");
+        toggle.setAttribute("aria-expanded", toggle.classList.contains("active"));
+      });
+      
+      navMobile.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          toggle.classList.remove("active");
+          navMobile.classList.remove("active");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!header.contains(e.target) && navMobile.classList.contains("active")) {
+          toggle.classList.remove("active");
+          navMobile.classList.remove("active");
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+  })();
+</script>
 </body>
 </html>

@@ -219,6 +219,36 @@ function initHeaderScroll() {
   }, { passive: true });
 }
 
+/* --- MOBILE MENU --- */
+function initMobileMenu() {
+  const toggles = document.querySelectorAll('.nav-toggle');
+  
+  if (!toggles.length) return;
+  
+  toggles.forEach(toggle => {
+    const header = toggle.closest('header');
+    if (!header) return;
+    
+    const navMobile = header.querySelector('.nav-mobile');
+    if (!navMobile) return;
+    
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('active');
+      navMobile.classList.toggle('active');
+      toggle.setAttribute('aria-expanded', toggle.classList.contains('active'));
+    });
+    
+    // Fermer le menu quand on clique sur un lien
+    navMobile.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        toggle.classList.remove('active');
+        navMobile.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+}
+
 
 
 /* --- TRANSITIONS --- */
@@ -339,7 +369,8 @@ function initDetailPage() {
   const project = PROJECTS.find(p => p.id === id);
   if (!project) return;
 
-  const num = String(PROJECTS.indexOf(project) + 1).padStart(2, '0');
+  const currentIndex = PROJECTS.indexOf(project);
+  const num = String(currentIndex + 1).padStart(2, '0');
   document.getElementById('detail-num').textContent = num;
   document.getElementById('detail-title').textContent = project.title;
   document.getElementById('detail-subtitle').textContent = project.subtitle;
@@ -350,7 +381,7 @@ function initDetailPage() {
   const sideImgsContainer = document.querySelector('.detail-side-imgs');
 
   // Injecter l'image principale
-  mainImgContainer.innerHTML = `<img src="ressources/projets/${project.images[0]}" alt="${project.title}" id="current-main-img">`;
+  mainImgContainer.innerHTML = `<img src="ressources/projets/${project.images[0]}" alt="${project.title}" id="current-main-img" loading="lazy">`;
 
   // Injecter les miniatures
   sideImgsContainer.innerHTML = '';
@@ -382,7 +413,40 @@ function initDetailPage() {
 
     tl.to([mainImg, clickedImg], { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' });
   });
+
+  // --- NAVIGATION PRÉCÉDENT/SUIVANT ---
+  initDetailNavigation(currentIndex);
 }
+
+// Global variable to store current project index
+let currentProjectIndex = 0;
+
+function initDetailNavigation(currentIndex) {
+  currentProjectIndex = currentIndex;
+  const navTitle = document.getElementById('detail-nav-title');
+  const totalProjects = PROJECTS.length;
+
+  if (navTitle) {
+    navTitle.textContent = `${currentIndex + 1} / ${totalProjects}`;
+  }
+}
+
+// Global functions called directly from HTML onclick
+window.goToPrevProject = function() {
+  const totalProjects = PROJECTS.length;
+  const prevIndex = currentProjectIndex === 0 ? totalProjects - 1 : currentProjectIndex - 1;
+  const prevProject = PROJECTS[prevIndex];
+  console.log('GO TO PREV:', prevProject.id);
+  window.location.href = `project-detail.html?id=${prevProject.id}`;
+};
+
+window.goToNextProject = function() {
+  const totalProjects = PROJECTS.length;
+  const nextIndex = currentProjectIndex === totalProjects - 1 ? 0 : currentProjectIndex + 1;
+  const nextProject = PROJECTS[nextIndex];
+  console.log('GO TO NEXT:', nextProject.id);
+  window.location.href = `project-detail.html?id=${nextProject.id}`;
+};
 
 /* --- HOME --- */
 function initHomePage() {
@@ -416,6 +480,18 @@ const hoverName = document.querySelector('.hover-name');
 const floatingImg = document.querySelector('.floating-img-wrapper');
 
 if (hoverName && floatingImg) {
+  // Positions aléatoires au chargement
+  const positions = [
+    'position-top-right',
+    'position-bottom-right',
+    'position-top-left',
+    'position-center-right',
+    'position-bottom-left'
+  ];
+  
+  const randomPosition = positions[Math.floor(Math.random() * positions.length)];
+  floatingImg.classList.add(randomPosition);
+  
   // Suivi de la souris
   window.addEventListener('mousemove', (e) => {
     // On décale un peu l'image de la souris pour qu'elle soit visible (ex: +20px)

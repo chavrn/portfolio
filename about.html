@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>À propos — Aulne Studio</title>
   <meta name="description" content="À propos de Charline Vernay, étudiante en ingénierie des médias à la HEIG-VD.">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="À propos — Aulne Studio">
+  <meta property="og:description" content="Découvrez Charline Vernay, étudiante en ingénierie des médias passionnée par le design graphique et la création visuelle.">
+  <meta property="og:image" content="ressources/logo/2026-01-26_aulneLogo-01.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://chavrn.github.io/portfolio/about.html">
+  
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,17 +22,31 @@
 <div id="page-transition"></div>
 
 <!-- HEADER -->
-<header>
-  <div class="header-logo">
-    <a href="index.html">
-      <img src="ressources/logo/2026-01-26_aulneLogo-03.png" class="header-logo" alt="Aulne Studio">
-    </a>
-  </div>
-  <nav>
-    <a href="works.html">réalisations</a>
-    <a href="mailto:charlinevernay04@gmail.com" class="btn-contact">me contacter</a>
-  </nav>
-</header>
+  <!-- HEADER -->
+  <header>
+    <div class="header-logo">
+      <a href="index.html"><img src="ressources/logo/2026-01-26_aulneLogo-01.png" alt="Aulne Studio" width="200"></a>
+    </div>
+    <nav class="nav-desktop">
+      <a href="works.html">réalisations</a>
+      <a href="about.html">à propos</a>
+      <a href="mailto:charlinevernay04@gmail.com" class="btn-contact">me contacter</a>
+    </nav>
+
+    <!-- Mobile Hamburger Menu -->
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Mobile Navigation Menu -->
+    <nav class="nav-mobile" id="nav-mobile">
+      <a href="works.html">réalisations</a>
+      <a href="about.html">à propos</a>
+      <a href="mailto:charlinevernay04@gmail.com" class="btn-contact">me contacter</a>
+    </nav>
+  </header>
 
 <main>
   <div class="about-wrapper" aria-label="À propos de Charline Vernay">
@@ -85,5 +107,41 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="script.js" defer></script>
+<!-- Mobile Menu Handler - Inline for immediate availability -->
+<script>
+  (function() {
+    const toggles = document.querySelectorAll(".nav-toggle");
+    toggles.forEach(toggle => {
+      const header = toggle.closest("header");
+      if (!header) return;
+      
+      const navMobile = header.querySelector(".nav-mobile");
+      if (!navMobile) return;
+      
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        toggle.classList.toggle("active");
+        navMobile.classList.toggle("active");
+        toggle.setAttribute("aria-expanded", toggle.classList.contains("active"));
+      });
+      
+      navMobile.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          toggle.classList.remove("active");
+          navMobile.classList.remove("active");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!header.contains(e.target) && navMobile.classList.contains("active")) {
+          toggle.classList.remove("active");
+          navMobile.classList.remove("active");
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+  })();
+</script>
 </body>
 </html>
