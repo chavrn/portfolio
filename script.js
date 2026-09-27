@@ -26,8 +26,8 @@ const PROJECTS = [
       "cover_etoileBlanche-tshirt.png",
       "cover_etoileBlanche-menuBoisson.png",
       "cover_etoileBlanche-sousverre.png",
-        "cover_etoileBlanche-menuSet.png",
-        "cover_etoileBlanche-tshirtMockup.png",
+      "cover_etoileBlanche-menuSet.png",
+      "cover_etoileBlanche-tshirtMockup.png",
     ]
   },
   {
@@ -39,7 +39,7 @@ const PROJECTS = [
     description: "Création de l'identité visuelle pour Curia, une application de ticketing citoyen permettant aux habitants de proposer et de voter pour des projets d'aménagement urbain.",
     description2: "Le logotype symbolise l'échange et la validation démocratique, avec une esthétique institutionnelle moderne qui inspire confiance et clarté pour les municipalités.",
     images: ["cover_curia.png",
-    "cover_curia-logos.png", "cover_curia-prototypes.png", "cover_curia-prototypes2.png"
+      "cover_curia-logos.png", "cover_curia-prototypes.png", "cover_curia-prototypes2.png"
     ]
   },
   {
@@ -49,13 +49,14 @@ const PROJECTS = [
     category: "Branding & Web",
     subtitle: "Écosystème e-commerce complet",
     description: "Développement d'une identité de marque 360° pour une plateforme alimentaire, incluant le logotype, une série d'illustrations de personnages (fruits et légumes) et une charte graphique solaire.",
-    description2: "Le projet a abouti à la création d'un site e-commerce sous WordPress, complété par une stratégie de packaging et de contenu pour les réseaux sociaux, offrant une expérience de marque fluide du digital au physique. Découvrez le projet sur <a href='https://www.medze.ch' target='_blank'>www.medze.ch</a> et sur <a href='https://www.instagram.com/medze.ch/' target='_blank'>Instagram</a>.",images: [
+    description2: "Le projet a abouti à la création d'un site e-commerce sous WordPress, complété par une stratégie de packaging et de contenu pour les réseaux sociaux, offrant une expérience de marque fluide du digital au physique. Découvrez le projet sur <a href='https://www.medze.ch' target='_blank'>www.medze.ch</a> et sur <a href='https://www.instagram.com/medze.ch/' target='_blank'>Instagram</a>.",
+    images: [
       "cover_medze-paquet.png",
       "cover_medze-carotte.png",
       "cover_medze-etiquette.png",
       "cover_medze-insta.png",
-        "cover_medze-instaShakshuka.png",
-        "cover_medze-potTomatePesto.png",
+      "cover_medze-instaShakshuka.png",
+      "cover_medze-potTomatePesto.png",
     ]
   },
   {
@@ -222,22 +223,22 @@ function initHeaderScroll() {
 /* --- MOBILE MENU --- */
 function initMobileMenu() {
   const toggles = document.querySelectorAll('.nav-toggle');
-  
   if (!toggles.length) return;
-  
+
   toggles.forEach(toggle => {
     const header = toggle.closest('header');
     if (!header) return;
-    
+
     const navMobile = header.querySelector('.nav-mobile');
     if (!navMobile) return;
-    
-    toggle.addEventListener('click', () => {
+
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
       toggle.classList.toggle('active');
       navMobile.classList.toggle('active');
       toggle.setAttribute('aria-expanded', toggle.classList.contains('active'));
     });
-    
+
     // Fermer le menu quand on clique sur un lien
     navMobile.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
@@ -246,10 +247,17 @@ function initMobileMenu() {
         toggle.setAttribute('aria-expanded', 'false');
       });
     });
+
+    // Fermer le menu si on clique en dehors
+    document.addEventListener('click', (e) => {
+      if (!header.contains(e.target) && navMobile.classList.contains('active')) {
+        toggle.classList.remove('active');
+        navMobile.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
   });
 }
-
-
 
 /* --- TRANSITIONS --- */
 function initPageTransitions() {
@@ -418,7 +426,7 @@ function initDetailPage() {
   initDetailNavigation(currentIndex);
 }
 
-// Global variable to store current project index
+// Variable globale pour stocker l'index du projet courant
 let currentProjectIndex = 0;
 
 function initDetailNavigation(currentIndex) {
@@ -431,12 +439,11 @@ function initDetailNavigation(currentIndex) {
   }
 }
 
-// Global functions called directly from HTML onclick
+// Fonctions globales appelées directement depuis le HTML (onclick)
 window.goToPrevProject = function() {
   const totalProjects = PROJECTS.length;
   const prevIndex = currentProjectIndex === 0 ? totalProjects - 1 : currentProjectIndex - 1;
   const prevProject = PROJECTS[prevIndex];
-  console.log('GO TO PREV:', prevProject.id);
   window.location.href = `project-detail.html?id=${prevProject.id}`;
 };
 
@@ -444,7 +451,6 @@ window.goToNextProject = function() {
   const totalProjects = PROJECTS.length;
   const nextIndex = currentProjectIndex === totalProjects - 1 ? 0 : currentProjectIndex + 1;
   const nextProject = PROJECTS[nextIndex];
-  console.log('GO TO NEXT:', nextProject.id);
   window.location.href = `project-detail.html?id=${nextProject.id}`;
 };
 
@@ -464,22 +470,12 @@ function initHomePage() {
   });
 }
 
-/* --- INIT --- */
-document.addEventListener('DOMContentLoaded', () => {
-  initCursor();
-  initHeaderScroll();
-  initPageTransitions();
-  initEntranceAnimations();
-  initScrollAnimations();
-  initWorksPage();
-  initDetailPage();
-  initHomePage();
-});
+/* --- HOVER FLOTTANT (page à propos, etc.) --- */
+function initHoverFloatingImage() {
+  const hoverName = document.querySelector('.hover-name');
+  const floatingImg = document.querySelector('.floating-img-wrapper');
+  if (!hoverName || !floatingImg) return;
 
-const hoverName = document.querySelector('.hover-name');
-const floatingImg = document.querySelector('.floating-img-wrapper');
-
-if (hoverName && floatingImg) {
   // Positions aléatoires au chargement
   const positions = [
     'position-top-right',
@@ -488,13 +484,12 @@ if (hoverName && floatingImg) {
     'position-center-right',
     'position-bottom-left'
   ];
-  
+
   const randomPosition = positions[Math.floor(Math.random() * positions.length)];
   floatingImg.classList.add(randomPosition);
-  
+
   // Suivi de la souris
   window.addEventListener('mousemove', (e) => {
-    // On décale un peu l'image de la souris pour qu'elle soit visible (ex: +20px)
     gsap.to(floatingImg, {
       x: e.clientX + 20,
       y: e.clientY + 20,
@@ -512,3 +507,17 @@ if (hoverName && floatingImg) {
     floatingImg.classList.remove('visible');
   });
 }
+
+/* --- INIT --- */
+document.addEventListener('DOMContentLoaded', () => {
+  initCursor();
+  initHeaderScroll();
+  initMobileMenu();
+  initPageTransitions();
+  initEntranceAnimations();
+  initScrollAnimations();
+  initWorksPage();
+  initDetailPage();
+  initHomePage();
+  initHoverFloatingImage();
+});
